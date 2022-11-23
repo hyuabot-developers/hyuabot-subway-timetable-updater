@@ -53,9 +53,10 @@ async def get_timetable_data(db_session: Session, route_name: str, route_id: int
     for station_name in list(set(terminal_station_items)):
         station_item_query = select(SubwayRouteStation.station_id).where(
             and_(SubwayRouteStation.station_name == station_name, SubwayRouteStation.route_id == route_id))
-        station_id, = db_session.execute(station_item_query).fetchone()
-        if station_id is None:
+        station_query = db_session.execute(station_item_query).fetchone()
+        if station_query is None:
             raise RuntimeError("Failed to get station id")
+        station_id = station_query[0]
         terminal_station_id[station_name] = station_id
     for timetable_item in timetable_items:
         timetable_item["station_id"] = start_station_id
