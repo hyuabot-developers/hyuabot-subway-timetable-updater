@@ -4,7 +4,7 @@ from aiohttp import ClientSession
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import Session
 
-from src.models import SubwayRoute, SubwayStation, SubwayRouteStation
+from models import SubwayRoute, SubwayStation, SubwayRouteStation
 
 
 async def initialize_subway_data(db_session: Session):
