@@ -5,7 +5,7 @@ from aiohttp import ClientTimeout, ClientSession
 from sqlalchemy import insert, select, and_
 from sqlalchemy.orm import Session
 
-from models.subway import SubwayTimetable, SubwayRouteStation
+from models import SubwayTimetable, SubwayRouteStation
 
 
 async def get_timetable_data(db_session: Session, route_name: str, route_id: int) -> None:
@@ -17,10 +17,10 @@ async def get_timetable_data(db_session: Session, route_name: str, route_id: int
         "한성대": "한성대입구",
     }
 
-    station_item = select([SubwayRouteStation.station_id]).where(and_(
-        SubwayRouteStation.station_name == "한대앞", SubwayRouteStation.route_id == route_id))
+    station_query_statement = select(SubwayRouteStation.station_id).where(
+        and_(SubwayRouteStation.station_name == "한대앞" and SubwayRouteStation.route_id == route_id))
     start_station_id = ""
-    for row in db_session.execute(station_item):
+    for row in db_session.execute(station_query_statement):
         start_station_id = row[0]
         break
     if not start_station_id:
@@ -51,9 +51,9 @@ async def get_timetable_data(db_session: Session, route_name: str, route_id: int
             except AttributeError:
                 print("AttributeError", url)
     for station_name in list(set(terminal_station_items)):
-        station_item = select([SubwayRouteStation.station_id]).where(and_(
-            SubwayRouteStation.station_name == station_name, SubwayRouteStation.route_id == route_id))
-        station_id = db_session.execute(station_item).fetchone()
+        station_item_query = select(SubwayRouteStation.station_id).where(
+            and_(SubwayRouteStation.station_name == station_name, SubwayRouteStation.route_id == route_id))
+        station_id = db_session.execute(station_item_query).fetchone()
         if station_id is None:
             raise RuntimeError("Failed to get station id")
         station_id = station_id[0]
