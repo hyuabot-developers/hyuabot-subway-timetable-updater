@@ -43,7 +43,7 @@ async def get_timetable_data(db_session: Session, route_name: str, route_id: int
                                 "weekday": weekday,
                                 "up_down_type": heading,
                                 "departure_time": f"{departure_time}+09:00",
-                                "terminal_station": terminal_station_name
+                                "terminal_station": terminal_station_name,
                             })
                             terminal_station_items.append(terminal_station_name)
             except asyncio.exceptions.TimeoutError:
