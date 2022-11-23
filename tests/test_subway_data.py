@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from scripts.timetable import get_timetable_data
 from models import BaseModel
 from models import SubwayTimetable
-from src.utils.database import get_db_engine
+from utils.database import get_db_engine
 from tests.insert_subway_information import initialize_subway_data
 
 
