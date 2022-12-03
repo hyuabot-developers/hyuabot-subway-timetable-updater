@@ -42,7 +42,7 @@ async def get_timetable_data(db_session: Session, route_name: str, route_id: int
                                 "station_id": start_station_id,
                                 "weekday": weekday,
                                 "up_down_type": heading,
-                                "departure_time": f"{departure_time}+09:00",
+                                "departure_time": f"{departure_time}",
                                 "terminal_station": terminal_station_name,
                             })
                             terminal_station_items.append(terminal_station_name)
