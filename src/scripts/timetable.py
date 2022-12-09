@@ -18,7 +18,7 @@ async def get_timetable_data(db_session: Session, route_name: str, route_id: int
     }
 
     station_query_statement = select(SubwayRouteStation.station_id).where(
-        and_(SubwayRouteStation.station_name == "한대앞" and SubwayRouteStation.route_id == route_id))
+        and_(SubwayRouteStation.station_name == "한대앞", SubwayRouteStation.route_id == route_id))
     start_station_id = ""
     for row in db_session.execute(station_query_statement):
         start_station_id = row[0]
