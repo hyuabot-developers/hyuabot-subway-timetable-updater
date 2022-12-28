@@ -30,7 +30,7 @@ async def get_timetable_data(db_session: Session, route_name: str, route_id: int
             url = ""
             try:
                 url = "https://raw.githubusercontent.com/hyuabot-developers/" \
-                      f"hyuabot-subway-timetable/main/{route_name}/weekdays/{heading}.csv"
+                      f"hyuabot-subway-timetable/main/{route_name}/{weekday}/{heading}.csv"
                 timeout = ClientTimeout(total=3.0)
                 async with ClientSession(timeout=timeout) as session:
                     async with session.get(url) as response:
