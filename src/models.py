@@ -35,4 +35,5 @@ class SubwayTimetable(BaseModel):
     up_down_type: Mapped[str] = mapped_column(nullable=False)
     weekday: Mapped[str] = mapped_column(nullable=False)
     departure_time: Mapped[datetime.time] = mapped_column(nullable=False)
+    start_station_id: Mapped[str] = mapped_column(ForeignKey("subway_route_station.station_id"), nullable=False)
     terminal_station_id: Mapped[str] = mapped_column(ForeignKey("subway_route_station.station_id"), nullable=False)
