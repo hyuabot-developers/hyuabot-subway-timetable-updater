@@ -27,19 +27,22 @@ async def get_timetable_data(db_session: Session, route_id: int) -> None:
             if response.status != 200:
                 raise RuntimeError("Failed to get timetable data")
             reader = csv.reader((await response.text()).splitlines())
-            for station, weekdays, heading, terminal, departure_time in reader:
-                if station in exclude_station_list or terminal in exclude_station_list:
+            for station, weekdays, heading, start, terminal, departure_time in reader:
+                if station in exclude_station_list or terminal in exclude_station_list or start in exclude_station_list:
                     continue
                 if station in station_name_dict:
                     station = station_name_dict[station]
                 if terminal in station_name_dict:
                     terminal = station_name_dict[terminal]
-                station_list.extend([station, terminal])
+                if start in station_name_dict:
+                    start = station_name_dict[start]
+                station_list.extend([station, start, terminal])
                 timetable_items.append({
                     "station_name": station,
                     "up_down_type": heading,
                     "weekday": weekdays,
                     "departure_time": departure_time,
+                    "start_station_name": start,
                     "terminal_station_name": terminal,
                 })
 
@@ -57,6 +60,8 @@ async def get_timetable_data(db_session: Session, route_id: int) -> None:
     for timetable_item in timetable_items:
         timetable_item["station_id"] = station_id_dict[timetable_item["station_name"]]
         del timetable_item["station_name"]
+        timetable_item["start_station_id"] = station_id_dict[timetable_item["start_station_name"]]
+        del timetable_item["start_station_name"]
         timetable_item["terminal_station_id"] = station_id_dict[timetable_item["terminal_station_name"]]
         del timetable_item["terminal_station_name"]
     db_session.execute(insert(SubwayTimetable).values(timetable_items))
