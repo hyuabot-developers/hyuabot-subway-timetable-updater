@@ -16,8 +16,8 @@ async def main():
         raise RuntimeError("Failed to get db session")
     session.execute(delete(SubwayTimetable))
     job_list = [
-        get_timetable_data(session, "skyblue", 1004),
-        get_timetable_data(session, "yellow", 1071),
+        get_timetable_data(session, 1004),
+        get_timetable_data(session, 1071),
     ]
     await asyncio.gather(*job_list)
     session.close()
