@@ -22,7 +22,7 @@ async def get_timetable_data(db_session: Session, route_id: int) -> None:
     }
     exclude_station_list: list[str] = ["별가람", "오남", "진접"]
     async with ClientSession(timeout=ClientTimeout(total=10)) as session:
-        url = f"https://raw.githubusercontent.com/hyuabot-developers/hyuabot-subway-timetable/main/{route_id}.csv"
+        url = f"https://raw.githubusercontent.com/jil8885/hyuabot-subway-timetable/main/{route_id}.csv"
         async with session.get(url) as response:
             if response.status != 200:
                 raise RuntimeError("Failed to get timetable data")
@@ -41,7 +41,7 @@ async def get_timetable_data(db_session: Session, route_id: int) -> None:
                     "station_name": station,
                     "up_down_type": heading,
                     "weekday": weekdays,
-                    "departure_time": departure_time,
+                    "departure_time": f'{departure_time} +09:00',
                     "start_station_name": start,
                     "terminal_station_name": terminal,
                 })
