@@ -49,8 +49,9 @@ class TestFetchRealtimeData:
         # Check if the data is inserted
         timetable_list = session.query(SubwayTimetable).all()
         for timetable_item in timetable_list:  # type: SubwayTimetable
-            assert type(timetable_item.station_id) == str
-            assert type(timetable_item.up_down_type) == str
-            assert type(timetable_item.weekday) == str
-            assert type(timetable_item.departure_time) == datetime.time
-            assert type(timetable_item.terminal_station_id) == str
+            assert isinstance(timetable_item.station_id, str)
+            assert isinstance(timetable_item.up_down_type, str)
+            assert isinstance(timetable_item.weekday, str)
+            assert isinstance(timetable_item.departure_time, datetime.time)
+            assert isinstance(timetable_item.start_station_id, str)
+            assert isinstance(timetable_item.terminal_station_id, str)
