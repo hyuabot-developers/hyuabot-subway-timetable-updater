@@ -2,8 +2,8 @@ FROM python:3.12-alpine AS build
 RUN python3.12 -m pip install --upgrade pip setuptools wheel
 
 WORKDIR /app
-COPY pyproject.toml .
-COPY requirements.txt .
+COPY setup.cfg .
+COPY setup.py .
 COPY src ./src
 RUN apk add --no-cache --virtual .build-deps gcc libc-dev libxslt-dev libpq-dev && \
     apk add --no-cache libxslt && \
