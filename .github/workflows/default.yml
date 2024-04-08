@@ -1,5 +1,5 @@
 name: Code Check and Test
-on: [pull_request, push]
+on: push
 jobs:
   lint:
     runs-on: [self-hosted, X64, Linux]
