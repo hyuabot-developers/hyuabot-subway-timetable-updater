@@ -41,7 +41,7 @@ async def get_timetable_data(db_session: Session, route_id: int) -> None:
                     "station_name": station,
                     "up_down_type": heading,
                     "weekday": weekdays,
-                    "departure_time": f'{departure_time} +09:00',
+                    "departure_time": departure_time,
                     "start_station_name": start,
                     "terminal_station_name": terminal,
                 })
