@@ -41,7 +41,7 @@ async def get_timetable_data(db_session: Session, route_id: int) -> None:
                     "station_name": station,
                     "up_down_type": heading,
                     "weekday": weekdays,
-                    "departure_time": f'{departure_time} +09:00',
+                    "departure_time": departure_time,
                     "start_station_name": start,
                     "terminal_station_name": terminal,
                 })
@@ -64,5 +64,12 @@ async def get_timetable_data(db_session: Session, route_id: int) -> None:
         del timetable_item["start_station_name"]
         timetable_item["terminal_station_id"] = station_id_dict[timetable_item["terminal_station_name"]]
         del timetable_item["terminal_station_name"]
-    db_session.execute(insert(SubwayTimetable).values(timetable_items))
+    timetable_items_grouped: dict[str, list[dict]] = {}
+    for timetable_item in timetable_items:
+        if timetable_item["station_id"] not in timetable_items_grouped:
+            timetable_items_grouped[timetable_item["station_id"]] = []
+        timetable_items_grouped[timetable_item["station_id"]].append(timetable_item)
+    for station_id, timetable_items in timetable_items_grouped.items():
+        insert_statement = insert(SubwayTimetable).values(timetable_items)
+        db_session.execute(insert_statement)
     db_session.commit()
