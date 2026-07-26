@@ -24,7 +24,7 @@ class SubwayRouteStation(BaseModel):
     station_id: Mapped[str] = mapped_column(primary_key=True)
     route_id: Mapped[str] = mapped_column(ForeignKey("subway_route.route_id"), nullable=False)
     station_name: Mapped[str] = mapped_column(ForeignKey("subway_station.station_name"))
-    station_sequence: Mapped[int] = mapped_column(nullable=False)
+    station_seq: Mapped[int] = mapped_column(nullable=False)
     cumulative_time: Mapped[float] = mapped_column(nullable=False)
 
 
