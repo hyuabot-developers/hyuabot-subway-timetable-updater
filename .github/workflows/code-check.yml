@@ -18,6 +18,9 @@ jobs:
       env:
         REQUIREMENTS_FILE: lint
       run: |
+        python -m venv .venv
+        echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
+        source .venv/bin/activate
         python -m pip install -U pip setuptools
         set -e
         python -m pip install -U -r requirements/${REQUIREMENTS_FILE}.txt
@@ -43,6 +46,9 @@ jobs:
       env:
         REQUIREMENTS_FILE: typecheck
       run: |
+        python -m venv .venv
+        echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
+        source .venv/bin/activate
         python -m pip install -U pip setuptools
         python -m pip install -U -r requirements/${REQUIREMENTS_FILE}.txt
     - name: Type check with mypy
@@ -84,6 +90,9 @@ jobs:
       env:
         REQUIREMENTS_FILE: test
       run: |
+        python -m venv .venv
+        echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
+        source .venv/bin/activate
         python -m pip install -U pip setuptools
         python -m pip install -U -r requirements/${REQUIREMENTS_FILE}.txt
     - name: Test with pytest
